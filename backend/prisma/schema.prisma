@@ -1,0 +1,72 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(anonymous)
+  createdAt    DateTime  @default(now())
+  payments     Payment[]
+}
+
+model Payment {
+  id        Int           @id @default(autoincrement())
+  user      User?         @relation(fields: [userId], references: [id])
+  userId    Int?
+  amount    Float
+  login     String
+  status    PaymentStatus @default(new)
+  paymentId String        @unique
+  createdAt DateTime      @default(now())
+  TaskQueue TaskQueue[]
+}
+
+model TaskQueue {
+  id        Int        @id @default(autoincrement())
+  payment   Payment    @relation(fields: [paymentId], references: [id])
+  paymentId Int
+  status    TaskStatus @default(pending)
+  createdAt DateTime   @default(now())
+}
+
+model Settings {
+  id               Int      @id @default(autoincrement())
+  siteName         String
+  commissionRate   Float
+  tinkoffApiKey    String
+  playWalletApiKey String
+  createdAt        DateTime @default(now())
+}
+
+model PromoCode {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  discount  Float
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+enum Role {
+  anonymous
+  user
+  admin
+}
+
+enum PaymentStatus {
+  new
+  confirmed
+  rejected
+}
+
+enum TaskStatus {
+  pending
+  success
+  error
+}
