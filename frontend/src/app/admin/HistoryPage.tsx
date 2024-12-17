@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from "@/components/ui/button";
 import Search from '@/components/ui/search';
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { FaFilter } from "react-icons/fa";
 import Dropdown from "@/components/ui/dropdown";
 import { FaChevronRight } from "react-icons/fa6";
-
+import axios from "axios";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 interface ItemsType {
     id: number;
@@ -19,1063 +21,28 @@ interface ItemsType {
 }
 
 const HistoryPage = () => {
-    const [items] = useState<ItemsType[]>([
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },{
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
+    const [items, setItems] = useState<ItemsType[]>([]);
+    const accessToken = localStorage.getItem('accessToken');
 
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
-        {
-            id: 0,
-            orderId: 461708012469,
-            username: 'LoreQuCode',
-            date: dayjs(),
-            amount: 399,
-            paymentMethod: 'Карта',
-            status: 'Complete',
-            ip: '192.223.54.114',
-        },
-        {
-            id: 1,
-            orderId: 461708012470,
-            username: 'UserTwo',
-            date: dayjs(),
-            amount: 500,
-            paymentMethod: 'Карта',
-            status: 'Pending',
-            ip: '192.223.54.115',
-        },
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get('http://localhost:5000/api/admin/payments', { headers: { Authorization: `Bearer ${accessToken}` } });
+            setItems(response.data);
+        }
+        fetchData();
+    }, [accessToken]);
 
-        // Добавьте дополнительные элементы для тестирования пагинации
-    ]);
     const [selectedItem, setSelectedItem] = useState(3);
-
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    // Расчет индексов для текущей страницы
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
-
     const totalPages = Math.ceil(items.length / itemsPerPage);
 
     const handlePageChange = (page: number) => {
+        if(page < 1 || page > totalPages) return;
         setCurrentPage(page);
     };
 
@@ -1087,7 +54,25 @@ const HistoryPage = () => {
 
     const handleSelect = (item: string, index: number) => {
         console.log(item);
-        setSelectedItem(index)
+        setSelectedItem(index);
+    };
+
+    const handleDownload = () => {
+        const worksheet = XLSX.utils.json_to_sheet(items.map(item => ({
+            ID: item.id,
+            'Order ID': item.orderId,
+            Username: item.username,
+            Date: item.date.format('YYYY-MM-DD HH:mm'),
+            Amount: item.amount,
+            'Payment Method': item.paymentMethod,
+            Status: item.status,
+            IP: item.ip
+        })));
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Payments');
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(data, 'payments.xlsx');
     };
 
     return (
@@ -1104,57 +89,55 @@ const HistoryPage = () => {
                                 </div>
                             </Dropdown>
                             <div className='w-full flex flex-col md:block'>
-                                <Button type={"outline"}>Скачать</Button>
+                                <Button type={"outline"} onClick={handleDownload}>Скачать</Button>
                             </div>
                         </div>
                     </div>
 
-                    {/* Таблица с данными */}
                     <div className='mt-5 overflow-x-auto'>
                         <table className='min-w-full bg-zinc-900 rounded-xl border-white/10'>
                             <thead className='bg-zinc-900'>
-                            <tr>
-                                <th className='px-6 py-3 text-left text-sm rounded-tl-xl font-medium text-gray-300'>ID</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Order ID</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Username</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Date</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Amount</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Payment Method</th>
-                                <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Status</th>
-                                <th className='px-6 py-3 text-left text-sm rounded-tr-xl font-medium text-gray-300'>IP</th>
-                            </tr>
+                                <tr>
+                                    <th className='px-6 py-3 text-left text-sm rounded-tl-xl font-medium text-gray-300'>ID</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Order ID</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Username</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Date</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Amount</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Payment Method</th>
+                                    <th className='px-6 py-3 text-left text-sm font-medium text-gray-300'>Status</th>
+                                    <th className='px-6 py-3 text-left text-sm rounded-tr-xl font-medium text-gray-300'>IP</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {currentItems.map((item, index) => (
-                                <tr key={item.id} className='bg-zinc-800 hover:bg-zinc-600'>
-                                    <td className={`px-6 py-4 text-gray-300 ${index === items.length-1 ? 'rounded-bl-xl' : ''}`}>{item.id}</td>
-                                    <td className='px-6 py-4 text-gray-300'>{item.orderId}</td>
-                                    <td className='px-6 py-4 text-gray-300'>{item.username}</td>
-                                    <td className='px-6 py-4 text-gray-300 whitespace-nowrap'>{item.date.format('YYYY-MM-DD HH:mm')}</td>
-                                    <td className='px-6 py-4 text-gray-300'>{item.amount}</td>
-                                    <td className='px-6 py-4 text-gray-300'>{item.paymentMethod}</td>
-                                    <td className='px-6 py-4 text-gray-300'>{item.status}</td>
-                                    <td className={`px-6 py-4 text-gray-300 ${index === items.length-1 ? 'rounded-br-xl' : ''}`}>{item.ip}</td>
-                                </tr>
-                            ))}
+                                {currentItems.map((item, index) => (
+                                    <tr key={item.id} className='bg-zinc-800 hover:bg-zinc-600'>
+                                        <td className={`px-6 py-4 text-gray-300 ${index === items.length - 1 ? 'rounded-bl-xl' : ''}`}>{item.id}</td>
+                                        <td className='px-6 py-4 text-gray-300'>{item.orderId}</td>
+                                        <td className='px-6 py-4 text-gray-300'>{item.username}</td>
+                                        <td className='px-6 py-4 text-gray-300 whitespace-nowrap'>{item.date.format('YYYY-MM-DD HH:mm')}</td>
+                                        <td className='px-6 py-4 text-gray-300'>{item.amount}</td>
+                                        <td className='px-6 py-4 text-gray-300'>{item.paymentMethod}</td>
+                                        <td className='px-6 py-4 text-gray-300'>{item.status}</td>
+                                        <td className={`px-6 py-4 text-gray-300 ${index === items.length - 1 ? 'rounded-br-xl' : ''}`}>{item.ip}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Пагинация */}
                     <div className='flex items-center justify-center mt-5 gap-5'>
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                             className={`border border-white/15 p-1.5 rounded-lg ${currentPage === 1 ? 'opacity-50 text-white/15 cursor-not-allowed' : 'bg-emerald-600 text-white'}`}>
-                            <FaChevronRight className='rotate-180'/>
+                            <FaChevronRight className='rotate-180' />
                         </button>
                         <p className='text-white font-bold'>{currentPage} из {totalPages}</p>
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
                             className={`border border-white/15 p-1.5 rounded-lg ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-emerald-600 text-white'}`}>
-                            <FaChevronRight/>
+                            <FaChevronRight />
                         </button>
                     </div>
                 </div>

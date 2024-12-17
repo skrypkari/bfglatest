@@ -5,6 +5,8 @@ import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import axios from "axios";
 import {useRouter} from "next/navigation";
+import {setAccessToken} from "@/store/authSlice";
+import {useDispatch} from "react-redux";
 
 
 
@@ -30,8 +32,9 @@ const Page = () => {
             setError(undefined);
             setLoading(true);
             try{
-                const res = await axios.post('http://localhost:5000/api/auth/login', {username: username, password: password}, {withCredentials: true});
-                if(res.data.message === 'Login successful'){
+                const res = await axios.post('http://localhost:5000/api/auth/login', {email: username, password: password}, {withCredentials: true});
+                if(res.data.accessToken){
+                    localStorage.setItem('accessToken', res.data.accessToken)
                     setTimeout(() => {
                         setLoading(false);
                         setError(undefined);
@@ -40,7 +43,7 @@ const Page = () => {
                 }else{
                     setTimeout(() => {
                         setLoading(false)
-                        setError('User not found !')
+                        setError('Admin not found !')
                     }, 5000)
                 }
             }catch (e){

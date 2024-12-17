@@ -1,19 +1,66 @@
 'use client'
 
 import { ApexOptions } from 'apexcharts';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import dynamic from "next/dynamic"; 
 import { MdTrendingUp, MdAttachMoney } from 'react-icons/md';
+import axios from "axios";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const StatsPage = () => {
 
-    const incomeDataSeries = [{
+    const [incomeDataSeries, setIncomeDataSeries] = useState([{
         name: 'Доходность',
-        data: [500, 700, 1200, 800, 1500, 1000, 1800]
-    }];
-    
+        data: [0, 0, 0, 0, 0, 0, 0]
+    }]);
+    const [purchaseDataSeries, setPurchaseDataSeries] = useState([
+        {
+            name: 'Покупки',
+            data: [0, 0, 0, 0, 0, 0, 0]
+        }
+    ]);
+    const [topClientsDataSeries, setTopClientsDataSeries] = useState([
+        {
+            name: 'Топ игроки',
+            data: [0, 0, 0, 0, 0]
+        }
+    ]);
+    const [newClientsDataSeries, setNewClientsDataSeries] = useState([
+        {
+            name: 'Новые клиенты',
+            data: [0, 0]
+        }
+    ]);
+    const [registrationDataSeries, setRegistrationDataSeries] = useState([
+        {
+            name: 'Регистрации',
+            data: [0, 0, 0, 0, 0, 0, 0]
+        }
+    ]);
+
+
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+       if(accessToken){
+           const fetchStatistics = async () => {
+               try {
+                   const response = await axios.get('http://localhost:5000/api/admin/dashboard', {headers: {Authorization: `Bearer ${accessToken}`}});
+                    console.log(response.data)
+                    setIncomeDataSeries(response.data.incomeDataSeries);
+                    setPurchaseDataSeries(response.data.purchaseDataSeries);
+                    setRegistrationDataSeries(response.data.registrationDataSeries);
+                    setTopClientsDataSeries(response.data.topClientsDataSeries);
+                    setNewClientsDataSeries(response.data.newClientsDataSeries);
+               } catch (error) {
+                   console.error('Error fetching statistics:', error);
+               }
+           };
+           fetchStatistics();
+       }
+    }, [accessToken]);
+
     const incomeDataOptions: ApexOptions = {
         chart: {
             type: 'area' as const,
@@ -78,11 +125,7 @@ const StatsPage = () => {
         }
     };
     
-    const purchaseDataSeries = [{
-        name: 'Покупки',
-        data: [200, 400, 1000, 600, 1200, 900, 1700]
-    }];
-    
+
     const purchaseDataOptions: ApexOptions = {
         chart: {
             type: 'bar', // Изменяем тип на "bar"
@@ -135,11 +178,7 @@ const StatsPage = () => {
         }
     };
     
-    const topClientsDataSeries = [{
-        name: 'Покупки',
-        data: [200, 400, 600, 650, 1200]
-    }];
-    
+
     const topClientsDataOptions: ApexOptions = {
         chart: {
             type: 'bar', // Изменяем тип на "bar"
@@ -193,8 +232,7 @@ const StatsPage = () => {
         }
     };
     
-    const newClientsDataSeries = [47, 53];
-    
+
     const newClientsDataOptions: ApexOptions = {
         chart: {
             height: 300,
@@ -211,11 +249,7 @@ const StatsPage = () => {
         }
     };
     
-    const registrationDataSeries = [{
-        name: 'Регистрации',
-        data: [30, 50, 40, 60, 80, 70, 100] // Данные регистраций по дням
-    }];
-    
+
     const registrationDataOptions: ApexOptions = {
         chart: {
             type: 'line',

@@ -1,8 +1,8 @@
-import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
-import { PrismaService } from '../prisma.service';
+import {HttpService} from '@nestjs/axios';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {lastValueFrom} from 'rxjs';
+import {v4 as uuidv4} from 'uuid';
+import {PrismaService} from '../prisma.service';
 
 @Injectable()
 export class PaymentService {
@@ -12,6 +12,19 @@ export class PaymentService {
   ) {}
 
   private commissionRate = 0.16;
+
+  async getPaymentHistory(userId: number) {
+    return this.prisma.payment.findMany({
+      where: { userId },
+      select: {
+        amount: true,
+        login: true,
+        status: true,
+        paymentId: true,
+        createdAt: true,
+      },
+    });
+  }
 
   async initiatePayment(amount: number, login: string, userId: number | null) {
     const finalAmount = amount + amount * this.commissionRate;
@@ -35,7 +48,6 @@ export class PaymentService {
   async createTinkoffPayment(paymentId: number, amount: number) {
     const response = await lastValueFrom(
       this.httpService.post('https://securepay.tinkoff.ru/v2/Init', {
-        // Параметры запроса к Tinkoff API
       }),
     );
 

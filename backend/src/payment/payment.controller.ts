@@ -35,4 +35,10 @@ export class PaymentController {
     const userId = req.user?.userId || null;
     return this.paymentService.getPaymentStatus(id, userId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('history/:id')
+  async getPaymentHistory(@Param('id') id: number) {
+    return this.paymentService.getPaymentHistory(id);
+  }
 }

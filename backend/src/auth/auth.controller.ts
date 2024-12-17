@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -18,8 +18,18 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post('anonymous')
+  @Get('anonymous')
   async getAnonymousToken() {
     return this.authService.createAnonymousToken();
+  }
+
+  @Get('create-admin')
+  async createAdmin() {
+    return this.authService.createAdmin();
+  }
+
+  @Get('validate')
+  async validateToken(@Headers('Authorization') token: string) {
+    return this.authService.validateToken(token);
   }
 }
